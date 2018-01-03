@@ -1,14 +1,54 @@
+<%
+    @PageTitle=(((defined?(@PageTitle)).nil?)?'':@PageTitle)+' | Bayes Algoritması ile Sosyal Medya Kötüye kullanım Analizi ve Sınıflandırılması'
+
+    require 'twitter'
+
+    twitter = Twitter::REST::Client.new do |config|
+        config.consumer_key        = "gOfcrjl3lam50jf1wQtz6qFHm"
+        config.consumer_secret     = "pV50vns4bqNXYzAjT1HXofHdFCyTjateNilVr1AYNtHx5I6ePl"
+        config.access_token        = "947748622900322304-psb89DKYT0JBMLbkpbpVhTbL9VT0syA"
+        config.access_token_secret = "WYVLt9IGjgLKP1a8JyKws4AH8l2j6I72qHiDHF4LKwJup"
+    end
+%>
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SMA</title>
-    <%= csrf_meta_tags %>
+    <head>
+        <title><%= @PageTitle %></title>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="<%= image_url('main/icon.ico') %>" />
+        <meta name="description" content="Bayes Algoritması ile Sosyal Ağ Analizi ve Içeriklerin Sınıflandırılması">
+        <meta name="keywords" content="Bayes, Algoritma, Sosyal, Ağ, Analiz, Sınıflandırma">
+        <meta name="author" content="Yusuf DURSUN, Adem YAĞMURLU">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+        <STYLE>
+            nav{margin-bottom: 0px !important;}
+        </STYLE>
+    </head>
 
-  <body>
-    <%= yield %>
-  </body>
+    <body>
+        <DIV class="row">
+            <DIV class="col-md-12">
+                <%= render 'ortak/navbar' %>
+            </DIV>
+            <DIV class="col-md-12 text-center baslik">
+                <%= render 'ortak/banner' %>
+            </DIV>
+            <DIV class="row container-fluid">
+                <DIV class="col-md-10">
+                    <%=
+                        twitter.user
+                    %>
+                    <%= yield %>
+                </DIV>
+                <DIV class="col-md-2">
+                    Deneme
+                </DIV>
+            </DIV>
+        </DIV>
+    </body>
 </html>

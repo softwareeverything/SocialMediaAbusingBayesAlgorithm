@@ -1,0 +1,18 @@
+@font-face
+{
+  font-family: CaboldComicOutlineDemo;
+  src:font-url('Cabold-Comic-Outline-demo.otf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face
+{
+  font-family: YokoSmileRegular;
+  src:font-url('Yoko-Smile-Regular.otf') format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.baslik{font-family: CaboldComicOutlineDemo, Arial, Helvetica; font-weight: bold;}
+.icerik{font-family: YokoSmileRegular, Arial, Helvetica; font-weight: bold;}
