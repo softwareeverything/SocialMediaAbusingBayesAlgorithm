@@ -6,6 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'twitter'
+gem 'omniauth-twitter'
 
 gem 'bootstrap-sass'
 gem 'jquery-rails'

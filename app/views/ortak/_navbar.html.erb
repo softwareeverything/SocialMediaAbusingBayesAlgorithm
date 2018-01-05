@@ -19,8 +19,11 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Kayıt Ol</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Giriş Yap</a></li>
+            <% if !current_user %>
+                <li><a href="<%= root_url+'auth/twitter' %>"><span class="glyphicon glyphicon-log-in"></span> Giriş Yap</a></li>
+            <% else %>
+                <li><a href="<%= root_url+'sessions/logout' %>"><span class="glyphicon glyphicon-log-out"></span> Çıkış Yap(<%= current_user.name %>)</a></li>
+            <% end %>
         </ul>
     </div>
 </nav>

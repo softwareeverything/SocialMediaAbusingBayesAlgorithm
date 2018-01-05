@@ -1,7 +1,5 @@
 <%
     @PageTitle=(((defined?(@PageTitle)).nil?)?'':@PageTitle)+' | Bayes Algoritması ile Sosyal Medya Kötüye kullanım Analizi ve Sınıflandırılması'
-
-
 %>
 
 <!DOCTYPE html>
@@ -18,30 +16,28 @@
 
         <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
         <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-        <STYLE>
-            nav{margin-bottom: 0px !important;}
-        </STYLE>
     </head>
 
     <body>
         <DIV class="row">
-            <DIV class="col-md-12">
+            <NAV class="col-md-12">
                 <%= render 'ortak/navbar' %>
-            </DIV>
-            <DIV class="col-md-12 text-center baslik">
+            </NAV>
+            <HEADER class="col-md-12 text-center baslik">
                 <%= render 'ortak/banner' %>
-            </DIV>
+            </HEADER>
             <DIV class="row container-fluid">
-                <DIV class="col-md-10">
-                    <%=
-
-                    %>
+                <SECTION class="col-md-9">
+                    <p id="notice"><%= notice %></p>
                     <%= yield %>
-                </DIV>
-                <DIV class="col-md-2">
-                    Deneme
-                </DIV>
+                </SECTION>
+                <ASIDE class="col-md-3">
+                    <%= render 'ortak/sidebar' %>
+                </ASIDE>
             </DIV>
+            <FOOTER class="col-md-12">
+                <%= render 'ortak/footer' %>
+            </FOOTER>
         </DIV>
     </body>
 </html>
