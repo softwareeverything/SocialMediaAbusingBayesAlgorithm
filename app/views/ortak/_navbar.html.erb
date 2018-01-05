@@ -4,7 +4,10 @@
             <a class="navbar-brand" href="#">Analiz & Sınıflandırma</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Anasayfa</a></li>
+            <li class="active"><a href="<%= root_url %>">Anasayfa</a></li>
+            <% if current_user %>
+                <li><a href="<%= root_url+'tweets' %>">Tweetlerim</a></li>
+            <% end %>
             <li>
                 <form class="navbar-form navbar-left" action="#">
                     <div class="input-group">
@@ -19,10 +22,10 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <% if !current_user %>
-                <li><a href="<%= root_url+'auth/twitter' %>"><span class="glyphicon glyphicon-log-in"></span> Giriş Yap</a></li>
-            <% else %>
+            <% if current_user %>
                 <li><a href="<%= root_url+'sessions/logout' %>"><span class="glyphicon glyphicon-log-out"></span> Çıkış Yap(<%= current_user.name %>)</a></li>
+            <% else %>
+                <li><a href="<%= root_url+'auth/twitter' %>"><span class="glyphicon glyphicon-log-in"></span> Giriş Yap</a></li>
             <% end %>
         </ul>
     </div>

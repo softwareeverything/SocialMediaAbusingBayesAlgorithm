@@ -1,0 +1,27 @@
+<% @PageTitle='Tweetlerim' %>
+<%= render 'TweetDuzenle' %>
+
+<DIV class="text-right"><%= button_to 'Yeni Tweet', root_url+'tweets/new', class:'btn btn-info', :method => :get %></DIV>
+<DIV class="tweets">
+    <% @tweets.each do |tweet| %>
+        <DIV class="tweet container-fluid" id="dvTweet<%= tweet.id %>">
+            <DIV class="row">
+                <DIV class="col-md-6"><img src="<%= current_user.twitter.update_profile.profile_image_url %>" style="width:15px;height:15px" /> <%= current_user.twitter.user.name %></DIV>
+                <DIV class="col-md-6 text-right">Oluşturulma Tarihi: <time datetime="<%= tweet.created_at.to_s[0..18] %>"><%= tweet.created_at.to_s[0..18] %></time></DIV>
+            </DIV>
+            <HR>
+            <DIV class="dvTweetGoster">
+                <DIV class="dvTweetText"><%= tweet.text %></DIV>
+                <HR>
+                <DIV class="row ">
+                    <DIV class="col-md-6">Saldırganlık Oranı(%20): <PROGRESS max="100" value="20" /></DIV>
+                    <DIV class="col-md-6 text-right">
+                        <%= button_to "Göster", root_url+'tweets/show/'+tweet.id.to_s, class: 'btn btn-info' %>
+                        <BUTTON class="btn btn-success" onClick="return fncTweetDuzenle('<%= tweet.id %>');">Düzenle</BUTTON>
+                        <%= button_to 'Sil', root_url+'tweets/destroy/'+tweet.id.to_s, class: 'btn btn-danger', data: {confirm: 'Emin misiniz?'}, :method => :get %>
+                    </DIV>
+                </DIV>
+            </DIV>
+        </DIV>
+    <% end %>
+</DIV>

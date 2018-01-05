@@ -1,0 +1,20 @@
+<%= render 'TweetDuzenle' %>
+<DIV class="@tweet container-fluid" id="dv@tweet<%= @tweet.id %>">
+    <DIV class="row">
+        <DIV class="col-md-6"><img src="<%= current_user.twitter.update_profile.profile_image_url %>" style="width:15px;height:15px" /> <%= current_user.twitter.user.name %></DIV>
+        <DIV class="col-md-6 text-right">Oluşturulma Tarihi: <time datetime="<%= tweet.created_at.to_s[0..18] %>"><%= @tweet.created_at.to_s[0..18] %></time></DIV>
+    </DIV>
+    <HR>
+    <DIV class="dv@tweetGoster">
+        <DIV class="dv@tweetText"><%= @tweet.text %></DIV>
+        <HR>
+        <DIV class="row ">
+            <DIV class="col-md-6">Saldırganlık Oranı(%20): <PROGRESS max="100" value="20" /></DIV>
+            <DIV class="col-md-6 text-right">
+                <BUTTON class="btn btn-success" onClick="return fncTweetDuzenle('<%= @tweet.id %>');">Düzenle</BUTTON>
+                <%= button_to 'Sil', root_url+'@tweets/destroy/'+@tweet.id.to_s, class: 'btn btn-danger', data: {confirm: 'Emin misiniz?'}, :method => :get %>
+                <%= button_to 'Geri', tweets_url, class: 'btn btn-info', :method => :get %>
+            </DIV>
+        </DIV>
+    </DIV>
+</DIV>

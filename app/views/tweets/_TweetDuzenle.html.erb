@@ -1,0 +1,55 @@
+<STYLE>
+    form{display:inline !important;}
+    .tweet{border: 2px dashed lightblue; border-radius: 15px; margin-bottom: 10px;}
+    progress
+    {
+        border: 0;
+        border-radius: 20px;
+        background: #000000;
+        color: #999999;
+    }
+    progress::-webkit-progress-bar {
+        border: 0;
+        border-radius: 20px;
+    }
+    progress::-webkit-progress-value {
+        border: 0;
+        border-radius: 20px;
+    }
+    progress::-moz-progress-bar {
+        border: 0;
+        border-radius: 20px;
+    }
+</STYLE>
+<SCRIPT>
+    function fncTweetDuzenle(id)
+    {
+        $('#dvTweet'+id+' .dvTweetGoster').hide();
+        if($('#dvTweet'+id).find('.dvTweetDuzenle').length>0)
+        {
+            $('#dvTweet'+id).find('.dvTweetDuzenle').show();
+        }
+        else
+        {
+            $('#dvTweet'+id).append('<DIV class="dvTweetDuzenle"><FORM action="<%= root_url+'tweets/update/' %>'+id+'" method="get">'+
+                '<DIV>'+
+                '<DIV>'+
+                '<TEXTAREA class="form-control" name="body">'+$('#dvTweet'+id+' .dvTweetGoster .dvTweetText').text()+'</TEXTAREA>'+
+                '</DIV>'+
+                '<DIV class="text-right">'+
+                '<INPUT type="submit" value="Kaydet" class="btn btn-info" data-confirm="Tweet\'i güncellemek istediğinizden emin misiniz?" />'+
+                '<INPUT type="submit" value="İptal" class="btn btn-info" onClick="return fncTweetDuzenleIptal(\''+id+'\')" />'+
+                '</DIV>'+
+                '</DIV>'+
+                '</FORM></DIV>');
+        }
+        return false;
+    }
+
+    function fncTweetDuzenleIptal(id)
+    {
+        $('#dvTweet'+id).find('.dvTweetDuzenle').hide();
+        $('#dvTweet'+id+' .dvTweetGoster').show();
+        return false;
+    }
+</SCRIPT>
