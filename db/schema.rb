@@ -10,16 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180104050227) do
+ActiveRecord::Schema.define(version: 20180106135234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "tweets", force: :cascade do |t|
-    t.integer "user_id"
-    t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "kelimeads", force: :cascade do |t|
+    t.string "ad", null: false
+  end
+
+  create_table "kelimes", force: :cascade do |t|
+    t.bigint "kelimead_id"
+    t.index ["kelimead_id"], name: "index_kelimes_on_kelimead_id"
+  end
+
+  create_table "kelimeturs", force: :cascade do |t|
+    t.bigint "kelime_id"
+    t.bigint "tur_id"
+    t.index ["kelime_id"], name: "index_kelimeturs_on_kelime_id"
+    t.index ["tur_id"], name: "index_kelimeturs_on_tur_id"
+  end
+
+  create_table "turs", force: :cascade do |t|
+    t.boolean "tehdit", null: false
+    t.boolean "kufur", null: false
+    t.boolean "aldatma", null: false
+    t.boolean "siddet", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,4 +49,7 @@ ActiveRecord::Schema.define(version: 20180104050227) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "kelimes", "kelimeads"
+  add_foreign_key "kelimeturs", "kelimes"
+  add_foreign_key "kelimeturs", "turs"
 end
