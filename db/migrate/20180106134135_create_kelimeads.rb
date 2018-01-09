@@ -3,6 +3,7 @@ class CreateKelimeads < ActiveRecord::Migration[5.1]
     create_table :kelimeads do |t|
       t.string :ad, :null=>false
     end
+    add_index :kelimeads, :ad, unique: true
   end
 
   def down

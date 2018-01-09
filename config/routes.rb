@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :tweets
+  get 'tweets/index'
+  get 'tweets/new'
+  get 'tweets/show'
+  get 'tweets/tweetlerim'
+
   root 'sayfalar#anasayfa'
 
   get ':controller(/:action(/:field))'

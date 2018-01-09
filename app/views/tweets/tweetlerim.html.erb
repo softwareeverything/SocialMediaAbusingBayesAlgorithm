@@ -1,13 +1,12 @@
-<% @PageTitle='Twitter Anasayfa' %>
+<% @PageTitle='Tweetlerim' %>
 <%= render 'TweetDuzenle' %>
 
-<DIV class="text-right"><%= button_to 'Yeni Tweet', root_url+'tweets/new', class:'btn btn-warning', :method => :get %></DIV>
+<DIV class="text-right"><%= button_to 'Yeni Tweet', root_url+'tweets/new', class:'btn btn-info', :method => :get %></DIV>
 <DIV class="tweets">
-    <% @sayac=0 %>
     <% @tweets.each do |tweet| %>
         <DIV class="tweet container-fluid" id="dvTweet<%= tweet.id %>">
             <DIV class="row">
-                <DIV class="col-md-6"><img src="<%= tweet.user.profile_image_url %>" style="width:15px;height:15px" /> <%= tweet.user.name %></DIV>
+                <DIV class="col-md-6"><img src="<%= current_user.twitter.update_profile.profile_image_url %>" style="width:15px;height:15px" /> <%= current_user.twitter.user.name %></DIV>
                 <DIV class="col-md-6 text-right">Oluşturulma Tarihi: <time datetime="<%= tweet.created_at.to_s[0..18] %>"><%= tweet.created_at.to_s[0..18] %></time></DIV>
             </DIV>
             <HR>
@@ -40,7 +39,9 @@
                                 end
                                 @sql += ',\''+@str+'\''
                             end
-                            @sql = @sql[1..(@sql.length-1)]
+                            @sql = @sql[1..(@sql.length-1)]%>
+                        <br><hr><br><%= @sql %><br><hr><br>
+                        <%
 
                             @tablo = @kelimeads.joins('INNER JOIN kelimes k ON k.kelimead_id=kelimeads.id INNER JOIN kelimeturs kt ON kt.kelime_id=k.id INNER JOIN turs t ON t.id=kt.tur_id').where("kelimeads.ad IN("+@sql+")")
 
@@ -62,11 +63,9 @@
                         <DIV>Şiddet Oranı(%<%= (@siddet*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= @siddet.to_s %>"/></DIV>
                     </DIV>
                     <DIV class="col-md-6 text-right">
-                        <%= button_to "Göster", root_url+'tweets/show/'+tweet.id.to_s+'/?donusUrl='+request.url, class: 'btn btn-info' %>
-                    <% if current_user.twitter.user == tweet.user %>
+                        <%= button_to "Göster", root_url+'tweets/show/'+tweet.id.to_s, class: 'btn btn-info' %>
                         <BUTTON class="btn btn-success" onClick="return fncTweetDuzenle('<%= tweet.id %>');">Düzenle</BUTTON>
                         <%= button_to 'Sil', root_url+'tweets/destroy/'+tweet.id.to_s, class: 'btn btn-danger', data: {confirm: 'Emin misiniz?'}, :method => :get %>
-                    <% end %>
                     </DIV>
                 </DIV>
             </DIV>
@@ -75,19 +74,17 @@
     <DIV class="row">
         <DIV class="col-md-6">
             <% if @page==1 %>
-                <%= button_to 'Önceki Sayfa', root_url+'tweets/index?page='+(@page-1).to_s, class: 'btn btn-info', :disabled => true %>
+                <%= button_to 'Önceki Sayfa', root_url+'tweets/tweetlerim?page='+(@page-1).to_s, class: 'btn btn-info', :disabled => true %>
             <% else %>
-                <%= button_to 'Önceki Sayfa', root_url+'tweets/index?page='+(@page-1).to_s, class: 'btn btn-info' %>
+                <%= button_to 'Önceki Sayfa', root_url+'tweets/tweetlerim?page='+(@page-1).to_s, class: 'btn btn-info' %>
             <% end %>
         </DIV>
         <DIV class="col-md-6 text-right">
             <% if @son %>
-                <%= button_to 'Sonraki Sayfa', root_url+'tweets/index?page='+(@page+1).to_s, class: 'btn btn-success', :disabled => true %>
+                <%= button_to 'Sonraki Sayfa', root_url+'tweets/tweetlerim?page='+(@page+1).to_s, class: 'btn btn-success', :disabled => true %>
             <% else %>
-                <%= button_to 'Sonraki Sayfa', root_url+'tweets/index?page='+(@page+1).to_s, class: 'btn btn-success' %>
+                <%= button_to 'Sonraki Sayfa', root_url+'tweets/tweetlerim?page='+(@page+1).to_s, class: 'btn btn-success' %>
             <% end %>
         </DIV>
     </DIV>
 </DIV>
-
-<!--Saldırganlık Oranı(%20): <PROGRESS max="100" value="20" />-->

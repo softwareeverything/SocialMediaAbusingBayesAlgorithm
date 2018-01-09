@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180106135234) do
+ActiveRecord::Schema.define(version: 20180108210623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20180106135234) do
     t.boolean "siddet", null: false
   end
 
+  create_table "tweetonays", force: :cascade do |t|
+    t.string "tweet"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_tweetonays_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
@@ -49,7 +57,14 @@ ActiveRecord::Schema.define(version: 20180106135234) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "yoneticis", force: :cascade do |t|
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_yoneticis_on_user_id"
+  end
+
   add_foreign_key "kelimes", "kelimeads"
   add_foreign_key "kelimeturs", "kelimes"
   add_foreign_key "kelimeturs", "turs"
+  add_foreign_key "tweetonays", "users"
+  add_foreign_key "yoneticis", "users"
 end

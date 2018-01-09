@@ -5,17 +5,39 @@ class TweetsController < ApplicationController
         redirect_to root_path unless current_user
     end
 
+    def deneme
+        @kelimeads = Kelimead.all
+        @kelimeler = kelimeler 'Merhaba be\'n Yusuf DURSUN', current_user
+    end
+
     def index
-        @tweets = current_user.twitter.user_timeline
+        @page = (params[:page].nil?)?1:params[:page].to_i
+        @TweetCountPerPage=10
+
+        @tweets = current_user.twitter.home_timeline(:page=>@page, :count=>@TweetCountPerPage)
+
+        @son = (current_user.twitter.home_timeline(:page=>@page, :count=>@TweetCountPerPage).nil?)?true:false
+
+        @kelimeads = Kelimead.all
+    end
+
+    def tweetlerim
+        @page = (params[:page].nil?)?1:params[:page].to_i
+        @TweetCountPerPage=10
+
+        @tweets = current_user.twitter.user_timeline(:page=>@page, :count=>@TweetCountPerPage, :exclude_replies=>true)
+
+        @kelimeads = Kelimead.all
     end
 
     def show
         redirect_to tweets_url if params[:field].nil?
         @tweet = current_user.twitter.status(params[:field])
+        @geriUrl = (params[:donusUrl].nil?)?root_url: params[:donusUrl]
     end
 
     def new
-        if(params[:body].nil?)
+        if params[:body].nil?
             render 'new'
         else
             respond_to do |format|

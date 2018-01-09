@@ -1,10 +1,6 @@
-<% @PageTitle='Twitter Anasayfa' %>
-<%= render 'TweetDuzenle' %>
-
-<DIV class="text-right"><%= button_to 'Yeni Tweet', root_url+'tweets/new', class:'btn btn-warning', :method => :get %></DIV>
-<DIV class="tweets">
-    <% @sayac=0 %>
-    <% @tweets.each do |tweet| %>
+<%= render 'tweets/TweetDuzenle' %>
+<DIV>
+    <% @tweetonay.each do |tweet| %>
         <DIV class="tweet container-fluid" id="dvTweet<%= tweet.id %>">
             <DIV class="row">
                 <DIV class="col-md-6"><img src="<%= tweet.user.profile_image_url %>" style="width:15px;height:15px" /> <%= tweet.user.name %></DIV>
@@ -63,31 +59,13 @@
                     </DIV>
                     <DIV class="col-md-6 text-right">
                         <%= button_to "Göster", root_url+'tweets/show/'+tweet.id.to_s+'/?donusUrl='+request.url, class: 'btn btn-info' %>
-                    <% if current_user.twitter.user == tweet.user %>
-                        <BUTTON class="btn btn-success" onClick="return fncTweetDuzenle('<%= tweet.id %>');">Düzenle</BUTTON>
-                        <%= button_to 'Sil', root_url+'tweets/destroy/'+tweet.id.to_s, class: 'btn btn-danger', data: {confirm: 'Emin misiniz?'}, :method => :get %>
-                    <% end %>
+                        <% if current_user.twitter.user == tweet.user %>
+                            <BUTTON class="btn btn-success" onClick="return fncTweetDuzenle('<%= tweet.id %>');">Düzenle</BUTTON>
+                            <%= button_to 'Sil', root_url+'tweets/destroy/'+tweet.id.to_s, class: 'btn btn-danger', data: {confirm: 'Emin misiniz?'}, :method => :get %>
+                        <% end %>
                     </DIV>
                 </DIV>
             </DIV>
         </DIV>
     <% end %>
-    <DIV class="row">
-        <DIV class="col-md-6">
-            <% if @page==1 %>
-                <%= button_to 'Önceki Sayfa', root_url+'tweets/index?page='+(@page-1).to_s, class: 'btn btn-info', :disabled => true %>
-            <% else %>
-                <%= button_to 'Önceki Sayfa', root_url+'tweets/index?page='+(@page-1).to_s, class: 'btn btn-info' %>
-            <% end %>
-        </DIV>
-        <DIV class="col-md-6 text-right">
-            <% if @son %>
-                <%= button_to 'Sonraki Sayfa', root_url+'tweets/index?page='+(@page+1).to_s, class: 'btn btn-success', :disabled => true %>
-            <% else %>
-                <%= button_to 'Sonraki Sayfa', root_url+'tweets/index?page='+(@page+1).to_s, class: 'btn btn-success' %>
-            <% end %>
-        </DIV>
-    </DIV>
 </DIV>
-
-<!--Saldırganlık Oranı(%20): <PROGRESS max="100" value="20" />-->
