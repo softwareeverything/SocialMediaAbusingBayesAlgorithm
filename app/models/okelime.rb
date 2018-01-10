@@ -1,0 +1,2 @@
+class Okelime < ApplicationRecord
+end

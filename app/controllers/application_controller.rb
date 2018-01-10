@@ -1,82 +1,32 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
+    $TweetOnaySurecindeMi=false
+    $tehdit = 0
+    $kufur = 0
+    $aldatma = 0
+    $siddet = 0
 
-    # @param [string] tweetText
-    def kelimeler tweetText, user
+    def dbKelimeAdEkle(kelime, t, k, a, s)
 
-        temizle tweetText
+        t = (t==true)?1:0
+        k = (k==true)?1:0
+        a = (a==true)?1:0
+        s = (s==true)?1:0
 
-        tweetTextDizi = tweetText.split(' ')
+        veritabaniStringGirisi(kelime)
 
-        sayac=0
-        olmayankelimeler = Array.new
-        sql = ''
-        tweetTextDizi.each do |kelime|
-            veritabaniStringGirisi(kelime)
-
-            if Kelimead.where(:ad=>kelime).count<1
-                olmayankelimeler.push kelime
-            else
-                sql += ',\''+kelime+'\''
-            end
-
-            sayac+=1
+        if(Okelime.where(ad: kelime).count < 1)
+            Okelime.create!(ad:kelime, tehdit: t, kufur: k, aldatma:a, siddet:s, kayitsayisi: 1)
+        else
+            kel=Okelime.where(ad: kelime).first
+            kel.update_attributes!(ad:kelime, tehdit: kel.tehdit+t, kufur: kel.kufur+k, aldatma: kel.aldatma+a, siddet: kel.siddet+s, kayitsayisi: kel.kayitsayisi+1)
         end
 
-        @tehdit = 0
-        @kufur = 0
-        @aldatma = 0
-        @siddet = 0
-
-        if sayac>0
-            if olmayankelimeler.length==sayac or (olmayankelimeler.length.to_f/sayac) < 0.3
-                txt = veritabaniStringGirisi(tweetText)
-                if Tweetonay.where('tweet LIKE?',txt).count<1
-                    Tweetonay.create(user_id:user.id, tweet:txt)
-                end
-            else
-                sql = sql[1..(sql.length-1)]
-
-                if sql.length>0
-                    tablo = Kelimead.joins('INNER JOIN kelimes k ON k.kelimead_id=kelimeads.id INNER JOIN kelimeturs kt ON kt.kelime_id=k.id INNER JOIN turs t ON t.id=kt.tur_id').where("kelimeads.ad IN("+@sql+")")
-
-                    if tablo.count>0
-                        @tehdit = @tablo.where('t.tehdit=true').count/@tablo.count.to_f
-                        @kufur = @tablo.where('t.kufur=true').count/@tablo.count.to_f
-                        @aldatma = @tablo.where('t.aldatma=true').count/@tablo.count.to_f
-                        @siddet = @tablo.where('t.siddet=true').count/@tablo.count.to_f
-                    end
-
-                    if olmayankelimeler.length>0
-                        t = @tehdit>=0.5?true:false
-                        k = @kufur>=0.5?true:false
-                        a = @aldatma>=0.5?true:false
-                        s = @siddet>=0.5?true:false
-
-                        id = Tur.where(tehdit:t,kufur:k,aldatma:a,siddet:s).first.id
-
-                        raise :test
-                        :begin
-                        olmayankelimeler.each do |kelime|
-                            Kelimead.create(ad:kelime)
-                            Kelime.create(kelimead_id:Kelimead.where(ad:kelime).first.id)
-                            Kelimetur.create(kelime_id:Kelime.where(kelimead_id:Kelimead.where(ad:kelime).first.id).first.id, tur_id:id)
-                        end
-                        :end
-                    end
-                end
-
-            end
-        end
     end
+    helper_method :dbKelimeAdEkle
 
-    # @param [string] sql
-    def dbKayitlar sql
-
-    end
-
-    def temizle tweetText
+    def temizle(tweetText)
         tweetText.gsub! '.',' '
         tweetText.gsub! '!',' '
         tweetText.gsub! '?',' '
@@ -87,32 +37,98 @@ class ApplicationController < ActionController::Base
         tweetText.downcase!
     end
 
-    # @param [string] kelime
-    def tirnakEkle kelime
-        str=''
-        kelime.each_char do |harf|
+    def veritabaniStringGirisi(str)
+
+        kelime = ''
+        str.each_char do |harf|
             if harf=="'"
-                str+="'"+harf
+                kelime+="'"+harf
             else
-                str+=harf
+                kelime+=harf
             end
         end
-        return str
-    end
+        str = kelime
 
-    def fazlaTirnaklariKaldir str
+        fazlaTirnaklariKaldir(str)
+    end
+    helper_method :veritabaniStringGirisi
+
+    def fazlaTirnaklariKaldir(str)
 
         if str.index("'''").nil?
             return str
         end
 
-        return fazlaTirnaklariKaldir str.gsub! "'''","''"
+        return fazlaTirnaklariKaldir(str.gsub!("'''","''"))
     end
 
-    def veritabaniStringGirisi str
-        str = tirnakEkle str
-        fazlaTirnaklariKaldir str
+    def dbTweetEkle(tid, txt)
+
+        if(Tweet.where(tweetid: tid).first.nil?)
+            esikdeger = 0.7
+            temizle(txt)
+            veritabaniStringGirisi(txt)
+
+            sayac = 0
+            sql = ''
+            dbOlmayanKelimeler = Array.new
+            dbTumKelimeler = Array.new
+            dizi = txt.split(' ')
+            dizi.each do |kelime|
+
+                kayit = Okelime.where(ad: kelime).first
+                if(kayit.nil?)
+                    dbOlmayanKelimeler.push(kelime)
+                else
+                    sql+=",'"+kelime+"'"
+                end
+                dbTumKelimeler.push(kelime)
+                sayac+=1
+
+            end
+            sql = sql[1..sql.length-1]
+
+            if(sayac==dbOlmayanKelimeler.length || (dbOlmayanKelimeler.length/sayac.to_f)>esikdeger)
+                Tweet.create!(user_id: current_user.id, tweetid: tid, tehdit:0, kufur:0, aldatma:0, siddet:0)
+                Tweetonay.create!(tweet_id:Tweet.where(tweetid: tid).first.id, icerik:txt)
+                $TweetOnaySurecindeMi = true
+            else
+                $TweetOnaySurecindeMi = false
+
+                tablo = Okelime.where("ad IN("+sql+")")
+
+                if(tablo.count>0)
+                    $tehdit = tablo.sum(:tehdit)/tablo.sum(:kayitsayisi).to_f
+                    $kufur = tablo.sum(:kufur)/tablo.sum(:kayitsayisi).to_f
+                    $aldatma = tablo.sum(:aldatma)/tablo.sum(:kayitsayisi).to_f
+                    $siddet = tablo.sum(:siddet)/tablo.sum(:kayitsayisi).to_f
+
+                    Tweet.create!(tweetid: tid, user_id:current_user.id, tehdit: $tehdit*100, kufur: $kufur*100, aldatma: $aldatma*100, siddet: $siddet*100)
+
+                    dbTumKelimeler.each do |kelime|
+                        dbKelimeAdEkle(kelime, ($tehdit>=0.5?true:false), ($kufur>=0.5?true:false), ($aldatma>=0.5?true:false), ($siddet>=0.5?true:false))
+                    end
+                end
+            end
+
+        else
+
+            t = Tweet.where(tweetid: tid).first
+
+            if(Tweetonay.where(tweet: t.id).first.nil?)
+                $TweetOnaySurecindeMi=false
+                $tehdit = t.tehdit
+                $kufur = t.kufur
+                $aldatma = t.aldatma
+                $siddet = t.siddet
+            else
+                $TweetOnaySurecindeMi=true
+            end
+
+        end
+
     end
+    helper_method :dbTweetEkle
 
     def current_user
         @current_user ||= User.find(session[:user_id]) if session[:user_id]

@@ -6,37 +6,54 @@ class AdminsController < ApplicationController
     end
 
     def index
-        @tweetonay = Tweetonay.all
     end
 
-    def deneme
-        @kel = fazlaTirnaklariKaldir "'Mer'''''haba 'A''l'''i'''' '''''''''Nasılsın?'''''..'""'.' '"
+    def tweetKontrol
+        @tweets = Tweetonay.all
     end
 
     def kaydet
-        unless params[:field].nil? || params[:tehdit].nil? || params[:kufur].nil? || params[:aldatma].nil? || params[:siddet].nil?
+        unless params[:tweetid].nil? || params[:tehdit].nil? || params[:kufur].nil? || params[:aldatma].nil? || params[:siddet].nil?
 
-            id = params[:field]
-            t = params[:tehdit]
-            k = params[:kufur]
-            a = params[:aldatma]
-            s = params[:siddet]
+            id = params[:tweetid].to_i
+            t = params[:tehdit].to_i==1?1:0
+            k = params[:kufur].to_i==1?1:0
+            a = params[:aldatma].to_i==1?1:0
+            s = params[:siddet].to_i==1?1:0
 
-            turId = Tur.where(tehdit:t,kufur:k,aldatma:a,siddet:s).first.id
+            tweet = Tweet.where(id: id).first
+            unless(tweet.nil?)
+                tweetText = Tweetonay.where(tweet: tweet.id).first.icerik
+                temizle(tweetText)
+                tweetTextDizi = tweetText.split(' ')
 
-            tweetText = Tweetonay.find(id).tweet
-            temizle tweetText
+                str = ''
+                tweetTextDizi.each do |kelime|
+                    dbKelimeAdEkle(kelime, (t==1?true:false), (k==1?true:false), (a==1?true:false), (s==1?true:false))
+                    str+= ",'"+kelime+"'"
+                end
+                str = str[1..str.length-1]
 
-            tweetTextDizi = tweetText.split(' ')
+                tablo = Okelime.where("ad IN("+str+")")
 
-            sql = ''
-            tweetTextDizi.each do |kelime|
-                sql += ',\''+(veritabaniStringGirisi kelime)+'\''
+                if(tablo.count>0)
+                    t = tablo.sum(:tehdit)/tablo.sum(:kayitsayisi)
+                    k = tablo.sum(:kufur)/tablo.sum(:kayitsayisi)
+                    a = tablo.sum(:aldatma)/tablo.sum(:kayitsayisi)
+                    s = tablo.sum(:siddet)/tablo.sum(:kayitsayisi)
+
+                    Tweetonay.where(tweet_id: tweet.id).first.destroy
+                    tweet.update_attributes!(tehdit: t.to_i, kufur: k.to_i, aldatma: a.to_i, siddet: s.to_i)
+                end
+
+                render 'admins/tweetKontrol'
+
+            else
+                render 'admins/tweetKontrol'
+
             end
-            sql = sql[1..(sql.length-1)]
-
         else
-            redirect_to 'admins/tweetKontrol', notice: 'Eksik parametre girildi!'
+            render 'admins/tweetKontrol'
         end
     end
 end

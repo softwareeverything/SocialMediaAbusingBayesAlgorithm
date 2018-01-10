@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ad: MyString
+  tehdit: 1
+  kufur: 1
+  aldatma: 1
+  siddet: 1
+  kayitsayisi: 1
+
+two:
+  ad: MyString
+  tehdit: 1
+  kufur: 1
+  aldatma: 1
+  siddet: 1
+  kayitsayisi: 1

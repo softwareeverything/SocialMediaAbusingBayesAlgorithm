@@ -15,52 +15,15 @@
                 <HR>
                 <DIV class="row ">
                     <DIV class="col-md-6">
-                        <%
-                            @tweetText = tweet.text.to_s.dup
-                            @tweetText.gsub! '.',' '
-                            @tweetText.gsub! '!',' '
-                            @tweetText.gsub! '?',' '
-                            @tweetText.gsub! ',',' '
-                            @tweetText.gsub! ':',' '
-                            @tweetText.gsub! ';',' '
-                            @tweetText.gsub!(/[^0-9A-Za-züÜşŞğĞöÖçÇıİ"' ]/, '')
-                            @tweetText.downcase!
-                            @tweetText = @tweetText.split(' ')
-
-                            @sql = ''
-                            @tweetText.each do |kelime|
-                                @str=""
-                                kelime.each_char do |harf|
-                                    if harf=="'"
-                                        @str+="'"+harf
-                                    else
-                                        @str+=harf
-                                    end
-                                end
-                                @sql += ',\''+@str+'\''
-                            end
-                            @sql = @sql[1..(@sql.length-1)]%>
-                        <br><hr><br><%= @sql %><br><hr><br>
-                        <%
-
-                            @tablo = @kelimeads.joins('INNER JOIN kelimes k ON k.kelimead_id=kelimeads.id INNER JOIN kelimeturs kt ON kt.kelime_id=k.id INNER JOIN turs t ON t.id=kt.tur_id').where("kelimeads.ad IN("+@sql+")")
-
-                            if @tablo.count>0
-                                @tehdit = @tablo.where('t.tehdit=true').count/@tablo.count.to_f
-                                @kufur = @tablo.where('t.kufur=true').count/@tablo.count.to_f
-                                @aldatma = @tablo.where('t.aldatma=true').count/@tablo.count.to_f
-                                @siddet = @tablo.where('t.siddet=true').count/@tablo.count.to_f
-                            else
-                                @tehdit = 0
-                                @kufur = 0
-                                @aldatma = 0
-                                @siddet = 0
-                            end
-                        %>
-                        <DIV>Tehdit Oranı(%<%= (@tehdit*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= @tehdit.to_s %>"/></DIV>
-                        <DIV>Küfür Oranı(%<%= (@kufur*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= @kufur.to_s %>"/></DIV>
-                        <DIV>Aldatma Oranı(%<%= (@aldatma*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= @aldatma.to_s %>"/></DIV>
-                        <DIV>Şiddet Oranı(%<%= (@siddet*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= @siddet.to_s %>"/></DIV>
+                        <% dbTweetEkle(tweet.id, tweet.text.dup)%>
+                        <%unless($TweetOnaySurecindeMi)%>
+                            <DIV>Tehdit Oranı(%<%= ($tehdit*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $tehdit.to_s %>"/></DIV>
+                            <DIV>Küfür Oranı(%<%= ($kufur*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $kufur.to_s %>"/></DIV>
+                            <DIV>Aldatma Oranı(%<%= ($aldatma*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $aldatma.to_s %>"/></DIV>
+                            <DIV>Şiddet Oranı(%<%= ($siddet*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $siddet.to_s %>"/></DIV>
+                        <% else %>
+                            <DIV>Tweet Onay Sürecinde!</DIV>
+                        <% end %>
                     </DIV>
                     <DIV class="col-md-6 text-right">
                         <%= button_to "Göster", root_url+'tweets/show/'+tweet.id.to_s, class: 'btn btn-info' %>

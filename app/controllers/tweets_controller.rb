@@ -5,29 +5,20 @@ class TweetsController < ApplicationController
         redirect_to root_path unless current_user
     end
 
-    def deneme
-        @kelimeads = Kelimead.all
-        @kelimeler = kelimeler 'Merhaba be\'n Yusuf DURSUN', current_user
-    end
-
     def index
         @page = (params[:page].nil?)?1:params[:page].to_i
-        @TweetCountPerPage=10
+        @TweetCountPerPage=5
 
         @tweets = current_user.twitter.home_timeline(:page=>@page, :count=>@TweetCountPerPage)
-
-        @son = (current_user.twitter.home_timeline(:page=>@page, :count=>@TweetCountPerPage).nil?)?true:false
 
         @kelimeads = Kelimead.all
     end
 
     def tweetlerim
         @page = (params[:page].nil?)?1:params[:page].to_i
-        @TweetCountPerPage=10
+        @TweetCountPerPage=5
 
         @tweets = current_user.twitter.user_timeline(:page=>@page, :count=>@TweetCountPerPage, :exclude_replies=>true)
-
-        @kelimeads = Kelimead.all
     end
 
     def show
@@ -42,7 +33,7 @@ class TweetsController < ApplicationController
         else
             respond_to do |format|
                 if current_user.twitter.update(params[:body])
-                    format.html { redirect_to tweets_url, notice: 'Tweetiniz başarılı bir şekilde atıldı...' }
+                    format.html { redirect_to root_url+'tweets', notice: 'Tweetiniz başarılı bir şekilde atıldı...' }
                 else
                     format.html { render :new }
                 end
@@ -57,7 +48,7 @@ class TweetsController < ApplicationController
     def destroy
         current_user.twitter.destroy_tweet(params[:field])
         respond_to do |format|
-          format.html { redirect_to tweets_url, notice: 'Tweet was successfully destroyed.' }
+          format.html { redirect_to root_url+'tweets', notice: 'Tweet was successfully destroyed.' }
         end
     end
 

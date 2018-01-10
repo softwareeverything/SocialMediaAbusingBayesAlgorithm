@@ -1,1 +1,29 @@
-Tweet Kontrol Sayfası
+<%= render 'tweets/TweetDuzenle' %>
+
+<% Tweetonay.all.reverse_each do |tweet| %>
+    <%= form_for '', :url => { controller:'admins', action:'kaydet' }, :html => {:method => :post} do |f| %>
+        <DIV class="tweet container-fluid" id="dvTweet<%= tweet.id %>">
+            <%= f.hidden_field 'tweetid', value:tweet.tweet.id %>
+            <DIV class="row">
+                <DIV class="col-md-6"><img src="<%= tweet.tweet.user.profile_image %>" style="width:15px;height:15px" /> <%= tweet.tweet.user.name %></DIV>
+                <DIV class="col-md-6 text-right">Oluşturulma Tarihi: <time datetime="<%= tweet.created_at.to_s[0..18] %>"><%= tweet.created_at.to_s[0..18] %></time></DIV>
+            </DIV>
+            <HR>
+            <DIV class="dvTweetGoster">
+                <DIV class="dvTweetText"><%= tweet.icerik %></DIV>
+                <HR>
+                <DIV class="row ">
+                    <DIV class="col-md-6">
+                        Tehdit: <%= f.check_box 'tehdit' %>
+                        Küfür: <%= f.check_box 'kufur' %>
+                        Aldatma: <%= f.check_box 'aldatma' %>
+                        Şiddet: <%= f.check_box 'siddet' %>
+                    </DIV>
+                    <DIV class="col-md-6 text-right">
+                        <%= f.submit 'Kaydet', class:'btn btn-info' %>
+                    </DIV>
+                </DIV>
+            </DIV>
+        </DIV>
+    <% end %>
+<% end %>

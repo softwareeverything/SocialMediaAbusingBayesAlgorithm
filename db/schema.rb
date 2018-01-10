@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108210623) do
+ActiveRecord::Schema.define(version: 20180110081455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "kelimeads", force: :cascade do |t|
     t.string "ad", null: false
+    t.index ["ad"], name: "kelimeads_ad_uindex", unique: true
   end
 
   create_table "kelimes", force: :cascade do |t|
@@ -31,6 +32,17 @@ ActiveRecord::Schema.define(version: 20180108210623) do
     t.index ["tur_id"], name: "index_kelimeturs_on_tur_id"
   end
 
+  create_table "okelimes", force: :cascade do |t|
+    t.string "ad", null: false
+    t.bigint "tehdit"
+    t.bigint "kufur"
+    t.bigint "aldatma"
+    t.bigint "siddet"
+    t.bigint "kayitsayisi"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "turs", force: :cascade do |t|
     t.boolean "tehdit", null: false
     t.boolean "kufur", null: false
@@ -39,11 +51,21 @@ ActiveRecord::Schema.define(version: 20180108210623) do
   end
 
   create_table "tweetonays", force: :cascade do |t|
-    t.string "tweet"
+    t.bigint "tweet_id"
+    t.string "icerik"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tweet_id"], name: "index_tweetonays_on_tweet_id"
+  end
+
+  create_table "tweets", force: :cascade do |t|
     t.bigint "user_id"
-    t.index ["user_id"], name: "index_tweetonays_on_user_id"
+    t.bigint "tweetid", null: false
+    t.integer "tehdit", limit: 2
+    t.integer "kufur", limit: 2
+    t.integer "aldatma", limit: 2
+    t.integer "siddet", limit: 2
+    t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,7 +79,7 @@ ActiveRecord::Schema.define(version: 20180108210623) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "yoneticis", force: :cascade do |t|
+  create_table "yoneticis", id: false, force: :cascade do |t|
     t.bigint "user_id"
     t.index ["user_id"], name: "index_yoneticis_on_user_id"
   end
@@ -65,6 +87,7 @@ ActiveRecord::Schema.define(version: 20180108210623) do
   add_foreign_key "kelimes", "kelimeads"
   add_foreign_key "kelimeturs", "kelimes"
   add_foreign_key "kelimeturs", "turs"
-  add_foreign_key "tweetonays", "users"
+  add_foreign_key "tweetonays", "tweets"
+  add_foreign_key "tweets", "users"
   add_foreign_key "yoneticis", "users"
 end
