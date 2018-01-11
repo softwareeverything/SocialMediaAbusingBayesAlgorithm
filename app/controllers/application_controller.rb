@@ -7,6 +7,33 @@ class ApplicationController < ActionController::Base
     $aldatma = 0
     $siddet = 0
 
+    def sadeceAnalizEt(txt)
+        temizle(txt)
+        txt = veritabaniStringGirisi(txt)
+
+        str = ''
+        kelimeler = txt.split(' ')
+        kelimeler.each do |kelime|
+            str+=",'"+kelime+"'"
+        end
+        str=str[1..str.length-1]
+
+        tablo = Okelime.where("ad IN("+str+")")
+
+        if tablo.count>0
+            $tehdit = ((tablo.sum(:tehdit)/tablo.sum(:kayitsayisi))*100).to_i
+            $kufur = ((tablo.sum(:kufur)/tablo.sum(:kayitsayisi))*100).to_i
+            $aldatma = ((tablo.sum(:aldatma)/tablo.sum(:kayitsayisi))*100).to_i
+            $siddet = ((tablo.sum(:siddet)/tablo.sum(:kayitsayisi))*100).to_i
+        else
+            $tehdit = 0
+            $kufur = 0
+            $aldatma = 0
+            $siddet = 0
+        end
+    end
+    helper_method :sadeceAnalizEt
+
     def dbKelimeAdEkle(kelime, t, k, a, s)
 
         t = (t==true)?1:0
@@ -27,12 +54,6 @@ class ApplicationController < ActionController::Base
     helper_method :dbKelimeAdEkle
 
     def temizle(tweetText)
-        tweetText.gsub! '.',' '
-        tweetText.gsub! '!',' '
-        tweetText.gsub! '?',' '
-        tweetText.gsub! ',',' '
-        tweetText.gsub! ':',' '
-        tweetText.gsub! ';',' '
         tweetText.gsub!(/[^0-9A-Za-züÜşŞğĞöÖçÇıİ"' ]/, '')
         tweetText.downcase!
     end
@@ -67,7 +88,7 @@ class ApplicationController < ActionController::Base
         if(Tweet.where(tweetid: tid).first.nil?)
             esikdeger = 0.7
             temizle(txt)
-            veritabaniStringGirisi(txt)
+            txt = veritabaniStringGirisi(txt)
 
             sayac = 0
             sql = ''
@@ -103,11 +124,16 @@ class ApplicationController < ActionController::Base
                     $aldatma = tablo.sum(:aldatma)/tablo.sum(:kayitsayisi).to_f
                     $siddet = tablo.sum(:siddet)/tablo.sum(:kayitsayisi).to_f
 
-                    Tweet.create!(tweetid: tid, user_id:current_user.id, tehdit: $tehdit*100, kufur: $kufur*100, aldatma: $aldatma*100, siddet: $siddet*100)
-
                     dbTumKelimeler.each do |kelime|
                         dbKelimeAdEkle(kelime, ($tehdit>=0.5?true:false), ($kufur>=0.5?true:false), ($aldatma>=0.5?true:false), ($siddet>=0.5?true:false))
                     end
+
+                    $tehdit = ($tehdit*100).to_i
+                    $kufur = ($kufur*100).to_i
+                    $aldatma = ($aldatma*100).to_i
+                    $siddet = ($siddet*100).to_i
+
+                    Tweet.create!(tweetid: tid, user_id:current_user.id, tehdit: $tehdit, kufur: $kufur, aldatma: $aldatma, siddet: $siddet)
                 end
             end
 

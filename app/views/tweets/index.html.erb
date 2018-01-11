@@ -16,7 +16,13 @@
                 <HR>
                 <DIV class="row ">
                     <DIV class="col-md-6">
-
+                        <% sadeceAnalizEt(tweet.text.dup) %>
+                        <DIV>Tehdit Oranı(%<%= $tehdit.to_s[0..5] %>): <PROGRESS max="100" value="<%= $tehdit.to_s %>"/></DIV>
+                        <DIV>Küfür Oranı(%<%= $kufur.to_s[0..5] %>): <PROGRESS max="100" value="<%= $kufur.to_s %>"/></DIV>
+                        <DIV>Aldatma Oranı(%<%= $aldatma.to_s[0..5] %>): <PROGRESS max="100" value="<%= $aldatma.to_s %>"/></DIV>
+                        <DIV>Şiddet Oranı(%<%= $siddet.to_s[0..5] %>): <PROGRESS max="100" value="<%= $siddet.to_s %>"/></DIV>
+                        <HR>
+                        <DIV>Genel Olumsuzluk(%<%= (($tehdit+$kufur+$aldatma+$siddet)/4).to_s %>): <PROGRESS max="100" value="<%= (($tehdit+$kufur+$aldatma+$siddet)/4).to_s %>"/></DIV>
                     </DIV>
                     <DIV class="col-md-6 text-right">
                         <%= button_to "Göster", root_url+'tweets/show/'+tweet.id.to_s+'/?donusUrl='+request.url, class: 'btn btn-info' %>

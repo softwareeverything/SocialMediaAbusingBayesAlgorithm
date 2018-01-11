@@ -1,23 +1,67 @@
+<BR>
+<BR>
 <HR>
+<% user = User.joins('INNER JOIN tweets t ON t.user_id=users.id').where.not('t.id':Tweetonay.select(:tweet_id)).group('users.id, users.name').select(:name) %>
 <DIV class="row">
-    <DIV class="col-md-4 text-center">
-        <UL>
-            <LI><A href="#">Anasayfa</A></LI>
-            <LI><A href="#">İstatistikler</A></LI>
-        </UL>
+    <DIV class="col-md-3 text-center">
+        <DIV class="jumbotron col-md-12 jm">
+            <H4 class="icerik">Tehdit - İlk 10</H4>
+            <HR>
+            <% user.order('SUM(tehdit)/COUNT(*) DESC').take(10).each do |kullanici| %>
+                <%= kullanici.name %><br>
+            <% end %>
+            <HR>
+            <% Okelime.order('Tehdit DESC, kayitsayisi DESC').take(10).each do |kelime| %>
+                <%= button_to kelime.ad, '#', {class:'btn btn-info'} %>
+            <% end %>
+        </DIV>
     </DIV>
-    <DIV class="col-md-4 text-center">
-        <UL>
-            <LI><A href="#">Anasayfa</A></LI>
-            <LI><A href="#">İstatistikler</A></LI>
-        </UL>
+    <DIV class="col-md-3 text-center">
+        <DIV class="jumbotron col-md-12 jm">
+            <H4 class="icerik">Küfür - İlk 10</H4>
+            <HR>
+            <% user.order('SUM(kufur)/COUNT(*) DESC').take(10).each do |kullanici| %>
+                <%= kullanici.name %><br>
+            <% end %>
+            <HR>
+            <% Okelime.order('Kufur DESC, kayitsayisi DESC').take(10).each do |kelime| %>
+                <%= button_to kelime.ad, '#', {class:'btn btn-warning'} %>
+            <% end %>
+        </DIV>
     </DIV>
-    <DIV class="col-md-4 text-center">
-        <UL>
-            <LI><A href="#">Anasayfa</A></LI>
-            <LI><A href="#">İstatistikler</A></LI>
-        </UL>
+    <DIV class="col-md-3 text-center">
+        <DIV class="jumbotron col-md-12 jm">
+            <H4 class="icerik">Aldatma - İlk 10</H4>
+            <HR>
+            <% user.order('SUM(aldatma)/COUNT(*) DESC').take(10).each do |kullanici| %>
+                <%= kullanici.name %><br>
+            <% end %>
+            <HR>
+            <% Okelime.order('Aldatma DESC, kayitsayisi DESC').take(10).each do |kelime| %>
+                <%= button_to kelime.ad, '#', {class:'btn btn-success'} %>
+            <% end %>
+        </DIV>
+    </DIV>
+    <DIV class="col-md-3 text-center">
+        <DIV class="jumbotron col-md-12 jm">
+            <H4 class="icerik">Siddet - İlk 10</H4>
+            <HR>
+            <% user.order('SUM(siddet)/COUNT(*) DESC').take(10).each do |kullanici| %>
+                <%= kullanici.name %><br>
+            <% end %>
+            <HR>
+            <% Okelime.order('Siddet DESC, kayitsayisi DESC').take(10).each do |kelime| %>
+                <%= button_to kelime.ad, '#', {class:'btn btn-danger'} %>
+            <% end %>
+        </DIV>
     </DIV>
 </DIV>
 <HR>
 <DIV class="col-md-12 text-center">This web site prepared by Yusuf DURSUN and Adem YAĞMURLU who are studying at software engineering. © All rights reserved.</DIV>
+<STYLE>
+    form{display:inline}
+    .jm{border-radius: 10px; background: linear-gradient(to bottom, lightblue, white); font-weight: bold}
+</STYLE>
+
+<!--rgb(58, 218, 215) , rgb(83, 213, 255)-->
+<!--rgb(87, 248, 243) , rgb(113, 243, 255)-->

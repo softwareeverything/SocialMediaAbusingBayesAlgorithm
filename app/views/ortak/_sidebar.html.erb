@@ -1,5 +1,24 @@
-<DIV class="jumbotron text-center">
-    <H3>İstatistikler</H3>
-    <DIV>Tweet hoşnutsuzluğu: <PROGRESS max="100" value="20" /></DIV>
-    <DIV>Arkadaşlarınızın genel tweet hoşnutsuzluğu: <PROGRESS max="100" value="35" /></DIV>
+<DIV class="sb text-center">
+    <H3 class="baslik" style="color:green">İstatistikler</H3>
+    <% unless current_user.nil? %>
+        <%
+            friends = current_user.twitter.friend_ids
+
+            sayac = 0
+            friends.each do |id|
+                unless User.where(uid: id).first.nil?
+                    sayac+=1
+                end
+            end
+        %>
+        Diğer arkadaşlarınızın aktiflik durumları: <PROGRESS max="<%= friends.count.to_s %>" value="<%= sayac.to_s %>"></PROGRESS>
+        <br>
+        <br>
+        <% current_user.twitter.trends.take(10).each do |hashtag| %>
+            <%= link_to hashtag.name.to_s, hashtag.url.to_s %>
+        <% end %>
+    <% end %>
 </DIV>
+<STYLE>
+    .sb{border: 2px dashed lightblue; border-radius: 15px;}
+</STYLE>

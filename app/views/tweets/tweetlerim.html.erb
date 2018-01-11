@@ -17,10 +17,12 @@
                     <DIV class="col-md-6">
                         <% dbTweetEkle(tweet.id, tweet.text.dup)%>
                         <%unless($TweetOnaySurecindeMi)%>
-                            <DIV>Tehdit Oranı(%<%= ($tehdit*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $tehdit.to_s %>"/></DIV>
-                            <DIV>Küfür Oranı(%<%= ($kufur*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $kufur.to_s %>"/></DIV>
-                            <DIV>Aldatma Oranı(%<%= ($aldatma*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $aldatma.to_s %>"/></DIV>
-                            <DIV>Şiddet Oranı(%<%= ($siddet*100).to_s[0..5] %>): <PROGRESS max="1.0" value="<%= $siddet.to_s %>"/></DIV>
+                            <DIV>Tehdit Oranı(%<%= $tehdit.to_s %>): <PROGRESS max="100" value="<%= $tehdit.to_s %>"/></DIV>
+                            <DIV>Küfür Oranı(%<%= $kufur.to_s %>): <PROGRESS max="100" value="<%= $kufur.to_s %>"/></DIV>
+                            <DIV>Aldatma Oranı(%<%= $aldatma.to_s %>): <PROGRESS max="100" value="<%= $aldatma.to_s %>"/></DIV>
+                            <DIV>Şiddet Oranı(%<%= $siddet.to_s %>): <PROGRESS max="100" value="<%= $siddet.to_s %>"/></DIV>
+                            <HR>
+                            <DIV>Genel Olumsuzluk(%<%= (($tehdit+$kufur+$aldatma+$siddet)/4).to_s %>): <PROGRESS max="100" value="<%= (($tehdit+$kufur+$aldatma+$siddet)/4).to_s %>"/></DIV>
                         <% else %>
                             <DIV>Tweet Onay Sürecinde!</DIV>
                         <% end %>

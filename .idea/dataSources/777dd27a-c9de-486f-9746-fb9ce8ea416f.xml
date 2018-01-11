@@ -35,8 +35,8 @@
     </role>
     <schema id="7" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2018-01-10.11:20:43.622</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1380</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-01-11.13:36:02.013</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1629</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -346,43 +346,48 @@
       <Position>8</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1380</StateNumber>
+      <StateNumber>1628</StateNumber>
     </column>
     <column id="66" parent="25" name="updated_at">
       <Position>9</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1380</StateNumber>
+      <StateNumber>1629</StateNumber>
     </column>
     <index id="67" parent="25" name="okelimes_pkey">
       <ObjectId>16903</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="68" parent="25" name="okelimes_pkey">
+    <index id="68" parent="25" name="okelimes_ad_index">
+      <ObjectId>16906</ObjectId>
+      <ColNames>ad</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="69" parent="25" name="okelimes_pkey">
       <ObjectId>16904</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>okelimes_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="69" parent="26" name="version">
+    <column id="70" parent="26" name="version">
       <Position>1</Position>
       <DataType>varchar|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>719</StateNumber>
     </column>
-    <index id="70" parent="26" name="schema_migrations_pkey">
+    <index id="71" parent="26" name="schema_migrations_pkey">
       <ObjectId>16598</ObjectId>
       <ColNames>version</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="71" parent="26" name="schema_migrations_pkey">
+    <key id="72" parent="26" name="schema_migrations_pkey">
       <ObjectId>16599</ObjectId>
       <ColNames>version</ColNames>
       <UnderlyingIndexName>schema_migrations_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="72" parent="27" name="id">
+    <column id="73" parent="27" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
@@ -390,42 +395,42 @@
       <DefaultExpression>nextval(&apos;turs_id_seq&apos;::regclass)</DefaultExpression>
       <SequenceName>turs_id_seq</SequenceName>
     </column>
-    <column id="73" parent="27" name="tehdit">
+    <column id="74" parent="27" name="tehdit">
       <Position>2</Position>
       <DataType>boolean|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>745</StateNumber>
     </column>
-    <column id="74" parent="27" name="kufur">
+    <column id="75" parent="27" name="kufur">
       <Position>3</Position>
       <DataType>boolean|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>745</StateNumber>
     </column>
-    <column id="75" parent="27" name="aldatma">
+    <column id="76" parent="27" name="aldatma">
       <Position>4</Position>
       <DataType>boolean|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>745</StateNumber>
     </column>
-    <column id="76" parent="27" name="siddet">
+    <column id="77" parent="27" name="siddet">
       <Position>5</Position>
       <DataType>boolean|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>745</StateNumber>
     </column>
-    <index id="77" parent="27" name="turs_pkey">
+    <index id="78" parent="27" name="turs_pkey">
       <ObjectId>16677</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="78" parent="27" name="turs_pkey">
+    <key id="79" parent="27" name="turs_pkey">
       <ObjectId>16678</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>turs_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="79" parent="28" name="id">
+    <column id="80" parent="28" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
@@ -433,44 +438,44 @@
       <DefaultExpression>nextval(&apos;tweetonays_id_seq&apos;::regclass)</DefaultExpression>
       <SequenceName>tweetonays_id_seq</SequenceName>
     </column>
-    <column id="80" parent="28" name="tweet_id">
+    <column id="81" parent="28" name="tweet_id">
       <Position>2</Position>
       <DataType>bigint|0</DataType>
       <StateNumber>1309</StateNumber>
     </column>
-    <column id="81" parent="28" name="icerik">
+    <column id="82" parent="28" name="icerik">
       <Position>3</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>1309</StateNumber>
     </column>
-    <column id="82" parent="28" name="created_at">
+    <column id="83" parent="28" name="created_at">
       <Position>4</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1309</StateNumber>
     </column>
-    <column id="83" parent="28" name="updated_at">
+    <column id="84" parent="28" name="updated_at">
       <Position>5</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1309</StateNumber>
     </column>
-    <index id="84" parent="28" name="tweetonays_pkey">
+    <index id="85" parent="28" name="tweetonays_pkey">
       <ObjectId>16886</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="85" parent="28" name="index_tweetonays_on_tweet_id">
+    <index id="86" parent="28" name="index_tweetonays_on_tweet_id">
       <ObjectId>16893</ObjectId>
       <ColNames>tweet_id</ColNames>
     </index>
-    <key id="86" parent="28" name="tweetonays_pkey">
+    <key id="87" parent="28" name="tweetonays_pkey">
       <ObjectId>16887</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>tweetonays_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="87" parent="28" name="fk_rails_8feb341520">
+    <foreign-key id="88" parent="28" name="fk_rails_8feb341520">
       <ObjectId>16888</ObjectId>
       <ColNames>tweet_id</ColNames>
       <RefTableId>16865</RefTableId>
@@ -479,7 +484,7 @@
       <RefKeyName>tweets_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="88" parent="29" name="id">
+    <column id="89" parent="29" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
@@ -487,53 +492,53 @@
       <DefaultExpression>nextval(&apos;tweets_id_seq&apos;::regclass)</DefaultExpression>
       <SequenceName>tweets_id_seq</SequenceName>
     </column>
-    <column id="89" parent="29" name="user_id">
+    <column id="90" parent="29" name="user_id">
       <Position>2</Position>
       <DataType>bigint|0</DataType>
       <StateNumber>1307</StateNumber>
     </column>
-    <column id="90" parent="29" name="tweetid">
+    <column id="91" parent="29" name="tweetid">
       <Position>3</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>1307</StateNumber>
     </column>
-    <column id="91" parent="29" name="tehdit">
+    <column id="92" parent="29" name="tehdit">
       <Position>4</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1307</StateNumber>
     </column>
-    <column id="92" parent="29" name="kufur">
+    <column id="93" parent="29" name="kufur">
       <Position>5</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1307</StateNumber>
     </column>
-    <column id="93" parent="29" name="aldatma">
+    <column id="94" parent="29" name="aldatma">
       <Position>6</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1307</StateNumber>
     </column>
-    <column id="94" parent="29" name="siddet">
+    <column id="95" parent="29" name="siddet">
       <Position>7</Position>
       <DataType>smallint|0</DataType>
       <StateNumber>1307</StateNumber>
     </column>
-    <index id="95" parent="29" name="tweets_pkey">
+    <index id="96" parent="29" name="tweets_pkey">
       <ObjectId>16869</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="96" parent="29" name="index_tweets_on_user_id">
+    <index id="97" parent="29" name="index_tweets_on_user_id">
       <ObjectId>16876</ObjectId>
       <ColNames>user_id</ColNames>
     </index>
-    <key id="97" parent="29" name="tweets_pkey">
+    <key id="98" parent="29" name="tweets_pkey">
       <ObjectId>16870</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>tweets_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="98" parent="29" name="fk_rails_003928b7f5">
+    <foreign-key id="99" parent="29" name="fk_rails_003928b7f5">
       <ObjectId>16871</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableId>16626</RefTableId>
@@ -542,7 +547,7 @@
       <RefKeyName>users_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="99" parent="30" name="id">
+    <column id="100" parent="30" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
@@ -550,69 +555,69 @@
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <SequenceName>users_id_seq</SequenceName>
     </column>
-    <column id="100" parent="30" name="provider">
+    <column id="101" parent="30" name="provider">
       <Position>2</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="101" parent="30" name="uid">
+    <column id="102" parent="30" name="uid">
       <Position>3</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="102" parent="30" name="name">
+    <column id="103" parent="30" name="name">
       <Position>4</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="103" parent="30" name="token">
+    <column id="104" parent="30" name="token">
       <Position>5</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="104" parent="30" name="secret">
+    <column id="105" parent="30" name="secret">
       <Position>6</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="105" parent="30" name="profile_image">
+    <column id="106" parent="30" name="profile_image">
       <Position>7</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="106" parent="30" name="created_at">
+    <column id="107" parent="30" name="created_at">
       <Position>8</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>727</StateNumber>
     </column>
-    <column id="107" parent="30" name="updated_at">
+    <column id="108" parent="30" name="updated_at">
       <Position>9</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>727</StateNumber>
     </column>
-    <index id="108" parent="30" name="users_pkey">
+    <index id="109" parent="30" name="users_pkey">
       <ObjectId>16633</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="109" parent="30" name="users_pkey">
+    <key id="110" parent="30" name="users_pkey">
       <ObjectId>16634</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="110" parent="31" name="user_id">
+    <column id="111" parent="31" name="user_id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <StateNumber>1277</StateNumber>
     </column>
-    <index id="111" parent="31" name="index_yoneticis_on_user_id">
+    <index id="112" parent="31" name="index_yoneticis_on_user_id">
       <ObjectId>16809</ObjectId>
       <ColNames>user_id</ColNames>
     </index>
-    <foreign-key id="112" parent="31" name="fk_rails_c975df4aba">
+    <foreign-key id="113" parent="31" name="fk_rails_c975df4aba">
       <ObjectId>16804</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableId>16626</RefTableId>
